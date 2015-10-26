@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="http://fb.me/react-0.12.2.js"></script>
+  <script type="text/javascript" src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+</head>
+<body>
+  <script type="text/jsx">
+    var App = React.createClass({
+      getInitialState: function() {
+        return {
+          txt: 'the state txt',
+          id: 0
+        };
+      },
+      update: function(e) {
+        this.setState({txt: e.target.value});
+      },
+      render: function() {
+        return (
+          <div>
+            <input type="text" onChange={this.update} />
+            <h1>{this.state.txt}</h1>
+          </div>
+        );
+      }
+    });
+
+    React.render(<App txt="this is the txt prop" />, document.body);
+  </script>
+
+  <script type="text/javascript">
+    // var App = React.createClass({
+    //  render: function() {
+    //    return React.DOM.h1(null, "Hi there")
+    //  }
+    // });
+
+    // React.render(App(), document.body);
+  </script>
+
+  <script type="text/javascript">
+    // var App = React.createClass({
+    //  render: function() {
+    //    return React.createElement("h1", null, "Yo")
+    //  }
+    // });
+
+    // React.render(React.createElement(App), document.body);
+  </script>
+</body>
+</html>

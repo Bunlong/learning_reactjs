@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="http://fb.me/react-0.12.2.js"></script>
+  <script type="text/javascript" src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+</head>
+<body>
+  <script type="text/jsx">
+    var App = React.createClass({
+      getDefaultProps: function() {
+        return {
+          txt: 'this is a default prop',
+          cat: 0
+        }
+      },
+      propTypes: {
+        txt: React.PropTypes.string,
+        cat: React.PropTypes.number.isRequired
+      },
+      render: function() {
+        var txt = this.props.txt
+
+        return(
+          <div>
+            <b>BOLD</b>
+            <h1>{txt}</h1>
+          </div>
+        );
+      }
+    });
+
+    React.render(<App cat={5} />, document.body);
+  </script>
+
+  <script type="text/javascript">
+    // var App = React.createClass({
+    //  render: function() {
+    //    return React.DOM.h1(null, "Hi there")
+    //  }
+    // });
+
+    // React.render(App(), document.body);
+  </script>
+
+  <script type="text/javascript">
+    // var App = React.createClass({
+    //  render: function() {
+    //    return React.createElement("h1", null, "Yo")
+    //  }
+    // });
+
+    // React.render(React.createElement(App), document.body);
+  </script>
+</body>
+</html>

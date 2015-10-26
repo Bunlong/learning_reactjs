@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="http://fb.me/react-0.12.2.js"></script>
+  <script type="text/javascript" src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+</head>
+<body>
+  <script type="text/jsx">
+    var App = React.createClass({
+      render: function() {
+        return (
+          <Button>React <Heart /></Button>
+        );
+      }
+    });
+
+    var Button = React.createClass({
+      render: function() {
+        return (
+          <button>{this.props.children}</button>
+        );
+      }
+    });
+
+    var Heart = React.createClass({
+      render: function() {
+        return (
+          <span>Heart</span>
+        );
+      }
+    });
+
+    React.render(<App />, document.body);
+  </script>
+</body>
+</html>

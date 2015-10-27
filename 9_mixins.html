@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="http://fb.me/react-0.12.2.js"></script>
+  <script type="text/javascript" src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+</head>
+<body>
+  <script type="text/jsx">
+    var ReactMixin = {
+      getInitialState: function() {
+        return {count: 0}
+      },
+      componentWillMount: function() {
+        console.log('will mount');
+      },
+      incrementCount: function() {
+        this.setState({count: this.state.count+1});
+      }
+    }
+
+    var App = React.createClass({
+      render: function() {
+        return (
+          <div>
+            <Button txt="this is the button" />
+            <br/>
+            <Label txt="this is the label" />
+          </div>
+        );
+      }
+    });
+
+    var Button = React.createClass({
+      mixins: [ReactMixin],
+      render: function() {
+        return <button onClick={this.incrementCount}>{this.props.txt} - {this.state.count}</button>
+      }
+    });
+
+    var Label = React.createClass({
+      mixins: [ReactMixin],
+      componentWillMount: function() {
+        setInterval(this.incrementCount, 1000);
+      },
+      render: function() {
+        return <label>{this.props.txt} - {this.state.count}</label>
+      }
+    });
+
+    React.render(<App />, document.body);
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="http://fb.me/react-0.12.2.js"></script>
+  <script type="text/javascript" src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+</head>
+<body>
+  <script type="text/jsx">
+    var PersonTable = React.createClass({
+      getInitialState: function() {
+        return {
+          data: [
+            {id: 1, fname: 'Bunlong', lname: 'VAN'},
+            {id: 2, fname: 'JingLong', lname: 'VAN'}
+          ]
+        }
+      },
+      render: function() {
+        var rows=this.state.data.map(function(person, i) {
+          return <PersonRow data={person} key={i} />
+        });
+        return <table>{rows}</table>
+      }
+    });
+
+    var PersonRow = React.createClass({
+      render: function() {
+        return (
+          <tr>
+            <td>{this.props.data.id}</td>
+            <td>{this.props.data.fname}</td>
+            <td>{this.props.data.lname}</td>
+          </tr>
+        );
+      }
+    });
+
+    React.render(<PersonTable />, document.body);
+  </script>
+</body>
+</html>

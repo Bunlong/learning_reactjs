@@ -278,5 +278,8 @@ https://scotch.io/tutorials/learning-react-getting-started-and-concepts#events
 
 https://www.codementor.io/reactjs/tutorial/react-js-flux-architecture-tutorial
 
+Array.prototype.abc = function () { return "abc"; }
+var a = [];
+a.abc(); // return "abc"
 
 psql -U btuser -h localhost bongthom  

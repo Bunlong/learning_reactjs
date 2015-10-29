@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="http://fb.me/react-0.12.2.js"></script>
+  <script type="text/javascript" src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+</head>
+<body>
+  <script type="text/jsx">
+    var List = React.createClass({
+      render: function() {
+        var createItem = function(itemText) {
+          return <li>{itemText}</li>;
+        }
+
+        return <ul>{this.props.items.map(createItem)}</ul>;
+      }
+    });
+
+    var App = React.createClass({
+      getInitialState: function() {
+        return {items: [], text: ''};
+      },
+      onChange: function(e) {
+        this.setState({text: e.target.value});
+      },
+      handleSubmit: function(e) {
+        e.preventDefault();
+        var nextItems = this.state.items.concat([this.state.text]);
+        var nextText = '';
+
+        this.setState({items: nextItems, text: nextText});
+
+      },
+      render: function() {
+        return (
+          <div>
+            <List items={this.state.items} />
+            <form onSubmit={this.handleSubmit}>
+              <input onChange={this.onChange} value={this.state.text} />
+              <button>{'Add #' + (this.state.items.length + 1)}</button>
+            </form>
+          </div>
+        );
+      }
+    });
+
+    React.render(<App />, document.body);
+  </script>
+</body>
+</html>

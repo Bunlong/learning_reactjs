@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="http://fb.me/react-0.12.2.js"></script>
+  <script type="text/javascript" src="http://fb.me/JSXTransformer-0.12.2.js"></script>
+</head>
+<body>
+  <script type="text/jsx">
+    var Counter = React.createClass({
+      getInitialState: function() {
+        return {count: 0};
+      },
+      render: function() {
+        return (
+          <div>
+            <h1>{this.state.count}</h1>
+            <button type="button" onClick={this.increase}>Increase</button>
+          </div>
+        );
+      },
+      increase: function() {
+        this.setState({count: this.state.count + 1});
+      }
+    });
+    React.render(<Counter />, document.body);
+  </script>
+</body>
+</html>

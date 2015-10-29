@@ -215,6 +215,33 @@ Events
 =========================================
 React also has a built in cross browser events system. The events are attached as properties of components and can trigger methods. Lets make our count increment below using events:
 
+
+Events
+
+React has a built in cross browser events system. The events are attached as properties of components and can trigger methods. Supported events include
+
+Clipboard Events
+onCopy onCut onPaste
+
+Keyboard Events
+onKeyDown onKeyPress onKeyUp
+
+Focus Events
+onFocus onBlur
+
+Mouse Events
+onClick onDoubleClick onDrag onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp
+
+Touch events
+onTouchCancel onTouchEnd onTouchMove onTouchStart
+
+UI Events
+onScroll, onWheel
+
+Form Events
+onChange onInput onSubmit
+
+
 var Counter = React.createClass({
   incrementCount: function() {
     this.setSate({count: this.state.count+1});

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <script src="react.js"></script>
+    <script src="JSXTransformer.js"></script>
+    <script src="flux-react.js"></script>
+    <script type="text/jsx">
+      /** @jsx React.DOM */
+
+      var Actions = flux.createActions(['addItem']);
+
+      var Store = flux.createStore({
+        lists: [],
+        actions: [
+          Actions.addItem
+        ],
+        addItem: function (item) {
+          this.lists.push(item);
+          this.emit('Lists.addItem');
+        },
+        exports: {
+          getLists: function () {
+            return this.lists;
+          }
+        }
+      });
+
+      var ComponentList = React.createClass({
+        getInitialState: function () {
+          return {
+            lists: Store.getLists()
+          };
+        },
+        triggerAction: function () {
+          Actions.addItem("Item added");
+        },
+        onChange: function () {
+          this.setState({
+            lists: Store.getLists()
+          });
+        },
+        componentWillMount: function () {
+          Store.on('Lists.addItem', this.onChange);
+        },
+        componentWillUnmount: function () {
+          Store.off('Lists.addItem', this.onChange);
+        },
+        render: function () {
+          return (
+            <div>
+              <ComponentCount />
+              <br/>
+              <button onClick={this.triggerAction}>Click</button>
+              <br/><br/>
+              {JSON.stringify(this.state.lists)}
+            </div>
+          );
+        }
+      });
+
+      var ComponentCount = React.createClass({
+        getInitialState: function() {
+          return {
+            count: 0
+          }
+        },
+        onChange: function () {
+          this.setState({
+            count: Store.getLists().length
+          });
+        },
+        componentWillMount: function () {
+          Store.on('Lists.addItem', this.onChange);
+        },
+        componentWillUnmount: function () {
+          Store.off('Lists.addItem', this.onChange);
+        },
+        render: function() {
+          return (
+            <div>
+              {JSON.stringify(this.state.count)}
+            </div>
+          );
+        }
+      });
+
+      React.renderComponent(<ComponentList />, document.body);
+    </script>
+  </body>
+</html>

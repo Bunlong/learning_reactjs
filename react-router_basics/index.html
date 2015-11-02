@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="react.min.js"></script>
+  <script type="text/javascript" src="ReactRouter.min.js"></script>
+  <script type="text/javascript" src="JSXTransformer.js"></script>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script type="text/jsx">
+      var React=window.React,
+          ReactRouter= window.ReactRouter;
+      var Link = ReactRouter.Link,
+          Route = ReactRouter.Route,
+          RouteHandler = ReactRouter.RouteHandler;
+
+      var Parent = React.createClass({
+        render: function () {
+          return (
+            <div>
+              <ul>
+                <li>
+                  <Link to='home'>Home</Link>
+                </li>
+                <li>
+                  <Link to='about'>About</Link>
+                </li>
+              </ul>
+              <RouteHandler />
+            </div>
+          );
+        }
+      });
+
+      var Home = React.createClass({
+        contextTypes: {
+          router: React.PropTypes.func
+        },
+        render: function () {
+          return (
+            <div>
+              Home
+              <RouteHandler />
+            </div>
+          );
+        }
+      });
+
+      var About = React.createClass({
+        render: function () {
+          return (
+            <div>
+              About
+              <RouteHandler />
+            </div>
+          );
+        }
+      });
+
+      var Routes = (
+        <Route name="parent" path="/" handler={Parent}>
+          <Route name="home" path="/home" handler={Home} />
+          <Route name="about" path="/about" handler={About} />
+        </Route>
+      );
+
+      ReactRouter.run(Routes, function (Handler) {
+        React.render(<Handler />, document.getElementById('container'));
+      });
+  </script>
+</body>
+</html>

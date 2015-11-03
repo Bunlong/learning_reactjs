@@ -7,9 +7,12 @@
   <script type="text/javascript" src="ReactRouter.min.js"></script>
   <script type="text/javascript" src="JSXTransformer.js"></script>
   <script src="flux-react.js"></script>
+  <link rel="stylesheet" href="bootstrap.min.css" />
 </head>
-<body>
-  <div id="container"></div>
+<body style="margin-top: 80px;">
+  <div class="container">
+    <div id="container"></div>
+  </div>
 
   <script type="text/jsx">
   	var React=window.React,
@@ -41,14 +44,27 @@
   		render: function() {
   			return (
   				<div>
-  					<ul>
-	  					<li>
-	  						<Link to="/dashboard">Dashboard</Link>
-							</li>
-							<li>
-								<Link to="/form">Form</Link>
-							</li>
-  					</ul>
+            <nav className="navbar navbar-inverse navbar-fixed-top">
+              <div className="container">
+                <div className="navbar-header">
+                  <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span className="sr-only">Toggle navigation</span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+                  </button>
+                </div>
+                <div id="navbar" className="navbar-collapse collapse">
+                  <ul className="nav navbar-nav">
+                    <li><Link to="/dashboard">Dashboard</Link></li>
+                    <li><Link to="/form">Form</Link></li>
+                  </ul>
+                  <ul className="nav navbar-nav navbar-right">
+                    <li><a href="#"><DataCounter /></a></li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
 
   					<RouteHandler />
   				</div>
@@ -89,22 +105,37 @@
 
 				return (
 					<div>
-						<form onSubmit={this.handleSubmit}>
-							<p>Add New Person</p>
-							<label>First Name: </label><input type="text" value={this.state.firstName} onChange={this.handleChangeFirstName} /><br/>
-
-							<label>Last Name:</label><input type="text" value={this.state.lastName} onChange={this.handleChangeLastName} /><br/>
-							<button type="submit">Submit</button>
-						</form>
-
-						<table border="1">
-							<tr>
-								<th>#</th>
-								<th>First Name</th>
-								<th>Last Name</th>
-							</tr>
-							{rows}
-						</table>
+            <div className="col-md-3">
+  						<form onSubmit={this.handleSubmit}>
+                <legend>Add New Person</legend>
+                <div className="form-group">
+                  <label>First Name: </label>
+                  <div className="uk-form-controls">
+                    <input type="text" value={this.state.firstName} onChange={this.handleChangeFirstName} className="form-control" /><br/>
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Last Name:</label>
+                  <div className="uk-form-controls">
+                    <input type="text" value={this.state.lastName} onChange={this.handleChangeLastName} className="form-control" /><br/>
+                  </div>
+                </div>
+                <button type="submit" className="btn btn-default">Submit</button>
+  						</form>
+            </div>
+            <div className="col-md-1" />
+            <div className="col-md-7">
+  						<table className="table">
+  							<thead>
+  								<th>#</th>
+  								<th>First Name</th>
+  								<th>Last Name</th>
+  							</thead>
+                <tbody>
+                  {rows}
+                </tbody>
+  						</table>
+            </div>
 
 						<RouteHandler />
 					</div>
@@ -127,6 +158,32 @@
 				Actions.push({id: Store.getData().length + 1, fname: this.state.firstName, lname: this.state.lastName});
 			}
 		});
+
+    var DataCounter = React.createClass({
+      getInitialState: function() {
+        return {
+          count: 0
+        }
+      },
+      onChange: function () {
+        this.setState({
+          count: Store.getData().length
+        });
+      },
+      componentWillMount: function () {
+        Store.on('data.push', this.onChange);
+      },
+      componentWillUnmount: function () {
+        Store.off('data.push', this.onChange);
+      },
+      render: function() {
+        return (
+          <div>
+            {this.state.count}
+          </div>
+        );
+      }
+    });
 
 		const PersonRow = React.createClass({
       render: function() {

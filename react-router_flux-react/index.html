@@ -15,12 +15,12 @@
   </div>
 
   <script type="text/jsx">
-  	var React=window.React,
+    var React=window.React,
         ReactRouter= window.ReactRouter;
 
     var Link = ReactRouter.Link,
-        Route = ReactRouter.Route,
-        RouteHandler = ReactRouter.RouteHandler;
+      Route = ReactRouter.Route,
+      RouteHandler = ReactRouter.RouteHandler;
   	
     var Actions = flux.createActions(['push']);
 
@@ -40,10 +40,10 @@
       }
     });
 
-  	const App = React.createClass({
-  		render: function() {
-  			return (
-  				<div>
+    const App = React.createClass({
+      render: function() {
+        return (
+          <div>
             <nav className="navbar navbar-inverse navbar-fixed-top">
               <div className="container">
                 <div className="navbar-header">
@@ -66,47 +66,46 @@
               </div>
             </nav>
 
-  					<RouteHandler />
-  				</div>
-  			);
-  		}
-  	});
+            <RouteHandler />
+          </div>
+        );
+      }
+    });
 
-  	const Dashboard = React.createClass({
-  		render: function() {
-  			return (
-  				<div>
-  					<h1>Dashboard</h1>
+    const Dashboard = React.createClass({
+      render: function() {
+        return (
+          <div>
+            <h1>Dashboard</h1>
+            <RouteHandler />
+          </div>
+        );
+      }
+    });
 
-  					<RouteHandler />
-  				</div>
-  			);
-  		}
-  	});
-
-		const Form = React.createClass({
-			getInitialState: function() {
-				return {
-					firstName: '', 
-					lastName: '',
-					data: Store.getData()
-				};
-			},
+    const Form = React.createClass({
+      getInitialState: function() {
+        return {
+          firstName: '', 
+          lastName: '',
+          data: Store.getData()
+        };
+      },
       componentWillMount: function () {
         Store.on('data.push', this.handleChangeData);
       },
       componentWillUnmount: function () {
         Store.off('data.push', this.handleChangeData);
       },
-			render: function() {
-				var rows=this.state.data.map(function(person, i) {
+      render: function() {
+        var rows=this.state.data.map(function(person, i) {
           return <PersonRow data={person} key={i} />
         });
 
-				return (
-					<div>
+        return (
+          <div>
             <div className="col-md-3">
-  						<form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handleSubmit}>
                 <legend>Add New Person</legend>
                 <div className="form-group">
                   <label>First Name: </label>
@@ -121,44 +120,44 @@
                   </div>
                 </div>
                 <button type="submit" className="btn btn-default">Submit</button>
-  						</form>
+              </form>
             </div>
             <div className="col-md-1" />
             <div className="col-md-7">
-  						<table className="table">
-  							<thead>
-  								<th>#</th>
-  								<th>First Name</th>
-  								<th>Last Name</th>
+              <table className="table">
+                <thead>
+                  <th>#</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
                   <th>Actions</th>
-  							</thead>
+                </thead>
                 <tbody>
                   {rows}
                 </tbody>
-  						</table>
+              </table>
             </div>
 
-						<RouteHandler />
-					</div>
-				);
-			},
-			handleChangeFirstName: function(event) {
-				this.setState({firstName: event.target.value});
-			},
-			handleChangeLastName: function(event) {
-				this.setState({lastName: event.target.value});
-			},
-			handleChangeData: function() {
-				this.setState({
+            <RouteHandler />
+          </div>
+        );
+      },
+      handleChangeFirstName: function(event) {
+        this.setState({firstName: event.target.value});
+      },
+      handleChangeLastName: function(event) {
+        this.setState({lastName: event.target.value});
+      },
+      handleChangeData: function() {
+        this.setState({
           data: Store.getData()
         });
-			},
-			handleSubmit: function(event) {
-				event.preventDefault();
+      },
+      handleSubmit: function(event) {
+        event.preventDefault();
 
-				Actions.push({id: Store.getData().length + 1, fname: this.state.firstName, lname: this.state.lastName});
-			}
-		});
+        Actions.push({id: Store.getData().length + 1, fname: this.state.firstName, lname: this.state.lastName});
+      }
+    });
 
     var DataCounter = React.createClass({
       getInitialState: function() {
@@ -199,7 +198,7 @@
       }
     });
 
-		var Routes = (
+    var Routes = (
       <Route name="parent" path="/" handler={App}>
         <Route name="dashboard" path="/dashboard" handler={Dashboard} />
         <Route name="form" path="/form" handler={Form} />

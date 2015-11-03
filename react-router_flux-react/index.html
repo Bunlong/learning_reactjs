@@ -57,7 +57,7 @@
                 <div id="navbar" className="navbar-collapse collapse">
                   <ul className="nav navbar-nav">
                     <li><Link to="/dashboard">Dashboard</Link></li>
-                    <li><Link to="/form">Form</Link></li>
+                    <li><Link to="/form">Add people</Link></li>
                   </ul>
                   <ul className="nav navbar-nav navbar-right">
                   <li role="presentation"><a>People <span className="badge"><DataCounter /></span></a></li>
@@ -159,7 +159,7 @@
       }
     });
 
-    var DataCounter = React.createClass({
+    const DataCounter = React.createClass({
       getInitialState: function() {
         return {
           count: 0
@@ -185,7 +185,7 @@
       }
     });
 
-		const PersonRow = React.createClass({
+    const PersonRow = React.createClass({
       render: function() {
         return (
           <tr>

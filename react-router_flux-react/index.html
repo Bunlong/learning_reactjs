@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script type="text/javascript" src="react.min.js"></script>
+  <script type="text/javascript" src="ReactRouter.min.js"></script>
+  <script type="text/javascript" src="JSXTransformer.js"></script>
+  <script src="flux-react.js"></script>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script type="text/jsx">
+  	var React=window.React,
+        ReactRouter= window.ReactRouter;
+
+    var Link = ReactRouter.Link,
+        Route = ReactRouter.Route,
+        RouteHandler = ReactRouter.RouteHandler;
+  	
+    var Actions = flux.createActions(['push']);
+
+    var Store = flux.createStore({
+      data: [],
+      actions: [
+        Actions.push
+      ],
+      push: function (item) {
+        this.data.push(item);
+        this.emit('data.push');
+      },
+      exports: {
+        getData: function () {
+          return this.data;
+        }
+      }
+    });
+
+  	const App = React.createClass({
+  		render: function() {
+  			return (
+  				<div>
+  					<ul>
+	  					<li>
+	  						<Link to="/dashboard">Dashboard</Link>
+							</li>
+							<li>
+								<Link to="/form">Form</Link>
+							</li>
+  					</ul>
+
+  					<RouteHandler />
+  				</div>
+  			);
+  		}
+  	});
+
+  	const Dashboard = React.createClass({
+  		render: function() {
+  			return (
+  				<div>
+  					<h1>Dashboard</h1>
+
+  					<RouteHandler />
+  				</div>
+  			);
+  		}
+  	});
+
+		const Form = React.createClass({
+			getInitialState: function() {
+				return {
+					firstName: '', 
+					lastName: '',
+					data: Store.getData()
+				};
+			},
+			render: function() {
+				var rows=this.state.data.map(function(person, i) {
+          return <PersonRow data={person} key={i} />
+        });
+
+				return (
+					<div>
+						<form onSubmit={this.handleSubmit}>
+							<p>Add New Person</p>
+							<label>First Name: </label><input type="text" value={this.state.firstName} onChange={this.handleChangeFirstName} /><br/>
+
+							<label>Last Name:</label><input type="text" value={this.state.lastName} onChange={this.handleChangeLastName} /><br/>
+							<button type="submit">Submit</button>
+						</form>
+
+						<table border="1">
+							<tr>
+								<th>#</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+							</tr>
+							{rows}
+						</table>
+
+						<RouteHandler />
+					</div>
+				);
+			},
+			handleChangeFirstName: function(event) {
+				this.setState({firstName: event.target.value});
+			},
+			handleChangeLastName: function(event) {
+				this.setState({lastName: event.target.value});
+			},
+			handleChangeData: function() {
+				this.setState({
+          data: Store.getData()
+        });
+			},
+			handleSubmit: function(event) {
+				event.preventDefault();
+
+				Actions.push({id: Store.getData().length + 1, fname: this.state.firstName, lname: this.state.lastName});
+			},
+			componentWillMount: function () {
+        Store.on('data.push', this.handleChangeData);
+      },
+      componentWillUnmount: function () {
+        Store.off('data.push', this.handleChangeData);
+      }
+		});
+
+		const PersonRow = React.createClass({
+      render: function() {
+        return (
+          <tr>
+            <td>{this.props.data.id}</td>
+            <td>{this.props.data.fname}</td>
+            <td>{this.props.data.lname}</td>
+          </tr>
+        );
+      }
+    });
+
+		var Routes = (
+      <Route name="parent" path="/" handler={App}>
+        <Route name="dashboard" path="/dashboard" handler={Dashboard} />
+        <Route name="form" path="/form" handler={Form} />
+      </Route>
+    );
+
+    ReactRouter.run(Routes, function (Handler) {
+      React.render(<Handler />, document.getElementById('container'));
+    });
+  </script>
+</body>
+</html>

@@ -282,4 +282,4 @@ Array.prototype.abc = function () { return "abc"; }
 var a = [];
 a.abc(); // return "abc"
 
-psql -U btuser -h localhost bongthom  
+psql -U btuser -h localhost bongthom

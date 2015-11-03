@@ -76,6 +76,12 @@
 					data: Store.getData()
 				};
 			},
+      componentWillMount: function () {
+        Store.on('data.push', this.handleChangeData);
+      },
+      componentWillUnmount: function () {
+        Store.off('data.push', this.handleChangeData);
+      },
 			render: function() {
 				var rows=this.state.data.map(function(person, i) {
           return <PersonRow data={person} key={i} />
@@ -119,13 +125,7 @@
 				event.preventDefault();
 
 				Actions.push({id: Store.getData().length + 1, fname: this.state.firstName, lname: this.state.lastName});
-			},
-			componentWillMount: function () {
-        Store.on('data.push', this.handleChangeData);
-      },
-      componentWillUnmount: function () {
-        Store.off('data.push', this.handleChangeData);
-      }
+			}
 		});
 
 		const PersonRow = React.createClass({

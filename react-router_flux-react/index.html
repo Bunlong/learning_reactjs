@@ -60,7 +60,7 @@
                     <li><Link to="/form">Form</Link></li>
                   </ul>
                   <ul className="nav navbar-nav navbar-right">
-                    <li><a href="#"><DataCounter /></a></li>
+                  <li role="presentation"><a>People <span className="badge"><DataCounter /></span></a></li>
                   </ul>
                 </div>
               </div>
@@ -130,6 +130,7 @@
   								<th>#</th>
   								<th>First Name</th>
   								<th>Last Name</th>
+                  <th>Actions</th>
   							</thead>
                 <tbody>
                   {rows}
@@ -192,6 +193,7 @@
             <td>{this.props.data.id}</td>
             <td>{this.props.data.fname}</td>
             <td>{this.props.data.lname}</td>
+            <td><button className="btn btn-danger btn-xs">Remove</button></td>
           </tr>
         );
       }

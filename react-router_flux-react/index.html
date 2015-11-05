@@ -19,19 +19,24 @@
         ReactRouter= window.ReactRouter;
 
     var Link = ReactRouter.Link,
-      Route = ReactRouter.Route,
-      RouteHandler = ReactRouter.RouteHandler;
+        Route = ReactRouter.Route,
+        RouteHandler = ReactRouter.RouteHandler;
   	
-    var Actions = flux.createActions(['push']);
+    var Actions = flux.createActions(['push', 'remove']);
 
     var Store = flux.createStore({
       data: [],
       actions: [
-        Actions.push
+        Actions.push,
+        Actions.remove
       ],
       push: function (item) {
         this.data.push(item);
         this.emit('data.push');
+      },
+      remove: function (id) {
+        this.data.splice(id - 1, 1);
+        this.emit('data.remove');
       },
       exports: {
         getData: function () {
@@ -93,13 +98,23 @@
       },
       componentWillMount: function () {
         Store.on('data.push', this.handleChangeData);
+        Store.on('data.remove', this.handleChangeData);
       },
       componentWillUnmount: function () {
         Store.off('data.push', this.handleChangeData);
+        Store.off('data.remove', this.handleChangeData);
+      },
+      handleRemove: function(event) {
+        event.preventDefault();
+        var id = event.target.dataset.id;
+        console.log(id);
+        Actions.remove(id);
       },
       render: function() {
+        var self = this;
+
         var rows=this.state.data.map(function(person, i) {
-          return <PersonRow data={person} key={i} />
+          return <PersonRow data={person} handleRemove={self.handleRemove} key={i} />
         });
 
         return (
@@ -172,9 +187,11 @@
       },
       componentWillMount: function () {
         Store.on('data.push', this.onChange);
+        Store.on('data.remove', this.onChange);
       },
       componentWillUnmount: function () {
         Store.off('data.push', this.onChange);
+        Store.off('data.remove', this.onChange);
       },
       render: function() {
         return (
@@ -188,11 +205,13 @@
     const PersonRow = React.createClass({
       render: function() {
         return (
-          <tr>
+          <tr key={this.props.data.id}>
             <td>{this.props.data.id}</td>
             <td>{this.props.data.fname}</td>
             <td>{this.props.data.lname}</td>
-            <td><button className="btn btn-danger btn-xs">Remove</button></td>
+            <td>
+              <button className="btn btn-danger btn-xs" onClick={this.props.handleRemove} data-id={this.props.data.id}>Remove</button>
+            </td>
           </tr>
         );
       }

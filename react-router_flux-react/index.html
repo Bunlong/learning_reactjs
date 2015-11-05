@@ -21,7 +21,7 @@
     var Link = ReactRouter.Link,
         Route = ReactRouter.Route,
         RouteHandler = ReactRouter.RouteHandler;
-  	
+    
     var Actions = flux.createActions(['push', 'remove']);
 
     var Store = flux.createStore({
@@ -35,7 +35,14 @@
         this.emit('data.push');
       },
       remove: function (id) {
-        this.data.splice(id - 1, 1);
+        var self = this;
+
+        this.data.map(function(person, index) {
+          if(person['id'] == id) {
+            self.data.splice(index, 1);
+          }
+        });
+
         this.emit('data.remove');
       },
       exports: {
@@ -107,7 +114,6 @@
       handleRemove: function(event) {
         event.preventDefault();
         var id = event.target.dataset.id;
-        console.log(id);
         Actions.remove(id);
       },
       render: function() {
@@ -170,7 +176,8 @@
       handleSubmit: function(event) {
         event.preventDefault();
 
-        Actions.push({id: Store.getData().length + 1, fname: this.state.firstName, lname: this.state.lastName});
+        var id = Store.getData().length > 0 ? Store.getData()[Store.getData().length - 1].id + 1 : 1;
+        Actions.push({id: id, fname: this.state.firstName, lname: this.state.lastName});
       }
     });
 

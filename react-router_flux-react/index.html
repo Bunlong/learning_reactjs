@@ -119,7 +119,7 @@
         var self = this;
 
         var rows=this.state.data.map(function(person, i) {
-          return <PersonRow data={person} handleRemove={self.handleRemove} handleEdit={self.handleEdit} key={i} />
+          return <PersonRow data={person} handleRemove={self.handleRemove} key={i} />
         });
 
         return (
@@ -185,11 +185,6 @@
         event.preventDefault();
         var id = event.target.dataset.id;
         Actions.remove(id);
-      },
-      handleEdit: function(event) {
-        event.preventDefault();
-        var id = event.target.dataset.id;
-        console.log(id);
       }
     });
 
@@ -229,8 +224,7 @@
             <td>{this.props.data.fname}</td>
             <td>{this.props.data.lname}</td>
             <td>
-              <button className="btn btn-danger btn-xs" onClick={this.props.handleRemove} data-id={this.props.data.id}>Remove</button>&nbsp;  
-              <button className="btn btn-primary btn-xs" onClick={this.props.handleEdit} data-id={this.props.data.id}>Edit</button>
+              <button className="btn btn-danger btn-xs" onClick={this.props.handleRemove} data-id={this.props.data.id}>Remove</button>
             </td>
           </tr>
         );
